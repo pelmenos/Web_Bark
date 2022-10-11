@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="container" style="padding: 0; border: 4px solid #212529; border-radius: 25px;">
+      <header>
+          <nav class="navbar navbar-dark bg-dark" style="border-radius: 15px 15px 0px 0px;">
+            <div class="container-fluid">
+              <a class="navbar-brand" style="text-decoration: none;">Закладки</a>
+
+<!--              <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">-->
+<!--                Создать закладку-->
+<!--              </button>-->
+
+              {% if user.is_authenticated %}
+                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#addBackdrop">
+                      Создать закладку
+                    </button>
+                    <a href="{% url 'logout' %}"><button class="btn btn-outline-light">{{ user }}</button></a>
+              {% else %}
+                <div>
+                    <button class="btn btn-outline-light " data-bs-toggle="modal" data-bs-target="#loginBackdrop">Войти</button>
+                    <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#registerBackdrop">Регистрация</button>
+                </div>
+              {% endif %}
+
+              {% include 'modal/login_modal.html'%}
+              {% include 'modal/register_modal.html'%}
+              {% include 'modal/add_modal.html'%}
+
+            </div>
+          </nav>
+      </header>
+      <div class="container">
+        {% block content %}
+        {% endblock content%}
+      </div>
+    </div>
+  </body>
+</html>

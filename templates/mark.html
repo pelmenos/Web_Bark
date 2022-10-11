@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load tags %}
+
+{% block content %}
+
+
+<!--{% include 'modal/add_modal.html'%}-->
+{% for message in messages%}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if message.tags == 'info'%}
+  <script>
+    var m = '{{message}}'
+    swal('Blocked!', m, 'info')
+  </script>
+{% elif message.tags == 'success'%}
+  <script>
+      var m = '{{message}}'
+      swal(m, '', 'success')
+   </script>
+{%endif%}
+{% endfor %}
+<div class="row row-cols-1 row-cols-md-4 g-4" style="margin-top: 10px; padding: 0">
+  {% get_mark_list user.id as mark_list%}
+  {% for mark in mark_list %}
+    <div class="col">
+      <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header">{{mark.create_at}}</div>
+        <div class="card-body">
+          <h5 class="card-title">{{mark.title}}</h5>
+          {% if mark.notes|length >= 94%}
+            <p class="card-text">{{mark.notes|slice:':94'}}...</p>
+          {% else %}
+            <p class="card-text">{{mark.notes}}</p>
+          {% endif %}
+          <a href="{{mark.get_absolute_url}}">
+            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Удалить
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock content %}
